@@ -1,51 +1,68 @@
 package pages;
 
-
 import org.openqa.selenium.WebDriver;
-import tools.Browser;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 
 public class StartPage {
-    protected Browser browser;
-
-
-    private static final String LOGIN_INPUT_FIELD_ID = "apf-login-input-value-username";
-    private static final String PASSWORD_INPUT_FIELD_ID = "apf-login-input-value-password";
-    private static final String SIGN_IN_BUTTON_ID = "apf-login-button-text";
+    private WebDriver driver;
 
     public StartPage(WebDriver driver) {
-        browser = new Browser(driver);
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
-    public Browser getBrowser() {
-        return this.browser;
+    public WebDriver getDriver() {
+        return driver;
     }
 
-    public StartPage login(String userName, String password) {
-        browser.findElementById(LOGIN_INPUT_FIELD_ID).sendKeys(userName);
-        browser.findElementById(PASSWORD_INPUT_FIELD_ID).sendKeys(password);
-        browser.findElementById(SIGN_IN_BUTTON_ID).click();
-        return new StartPage(browser.getDriver());
+
+    @FindBy (id ="apf-login-input-value-username")
+    private WebElement userNameField;
+
+    @FindBy (id="apf-login-input-value-password")
+    private WebElement passwordField;
+
+    @FindBy (id ="apf-login-input-label-username")
+    private WebElement userNameLabel;
+
+    @FindBy (id="apf-login-input-label-password")
+    private WebElement passwordLabel;
+
+    @FindBy (id="apf-login-button-container")
+    private WebElement loginButton;
+
+
+    public void enterUserName(String UserName) {
+        userNameField.sendKeys(UserName);
     }
 
-    public void enterUserName() {
-        browser.findElementById(LOGIN_INPUT_FIELD_ID).sendKeys();
+    public void enterPassword(String Password) {
+        passwordField.sendKeys(Password);
     }
 
-    public void enterPassword() {
-        browser.findElementById(PASSWORD_INPUT_FIELD_ID).sendKeys();
+    public void clearUserName() {
+        userNameField.clear();
     }
 
-    public void findUserNameText() {
-        browser.findElementById("apf-login-input-label-username");
+    public void clearPassword() {
+        passwordField.clear();
     }
 
-    public String getUserNameText() {
-        return browser.findElementById("apf-login-input-label-username").getText();
+
+    public String getUserNameLabelText()  {
+        return userNameLabel.getText();
     }
 
-    public String getPasswordText() {
-        return browser.findElementById("apf-login-input-label-password").getText();
+
+    public String getPasswordLabelText() {
+        return passwordLabel.getText();
+    }
+
+    public void clickLoginButton(){
+        loginButton.click();
     }
 
 
