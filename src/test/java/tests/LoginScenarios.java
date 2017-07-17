@@ -1,6 +1,8 @@
 package tests;
 
+
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import tools.BasicTestConditions;
 import tools.PropertiesProvider;
@@ -8,24 +10,10 @@ import tools.PropertiesProvider;
 
 public class LoginScenarios extends BasicTestConditions {
 
-
-    private static String correct_UserName_Label_Text = "User Name";
-    private static String correct_Password_Label_Text = "Password";
     private static String username = PropertiesProvider.getProperty("serviceName");
     private static String password = PropertiesProvider.getProperty("servicePass");
 
-
-    @Test (priority = 1)
-    public void verifyUserNameLine() {
-        Assert.assertEquals(correct_UserName_Label_Text, startPage.getUserNameLabelText());
-    }
-
-    @Test (priority = 2)
-    public void verifyPasswordLine() {
-        Assert.assertEquals(correct_Password_Label_Text, startPage.getPasswordLabelText());
-    }
-
-    @Test (priority = 5)
+    @Test (groups = {"SysAuthLoginTests"})
     public void loginWithCorrectCredentials(){
         startPage.enterUserName(username);
         startPage.enterPassword(password);
@@ -33,7 +21,7 @@ public class LoginScenarios extends BasicTestConditions {
         Assert.assertTrue(driver.getCurrentUrl().endsWith("/Default.aspx"));
     }
 
-    @Test (priority = 3)
+    @Test (groups = {"SysAuthLoginTests"})
     public void loginWithWrongUserName(){
         startPage.enterUserName("wrong");
         startPage.enterPassword(password);
@@ -43,7 +31,7 @@ public class LoginScenarios extends BasicTestConditions {
         startPage.clearPassword();
     }
 
-    @Test (priority = 4)
+    @Test (groups = {"SysAuthLoginTests"})
     public void loginWithWrongPassword(){
         startPage.enterUserName(username);
         startPage.enterPassword("wrong");
@@ -53,5 +41,29 @@ public class LoginScenarios extends BasicTestConditions {
         startPage.clearPassword();
     }
 
+    @Test (groups = {"SysAuthEmptyLoginTests"})
+    public void loginWithEmptyUserName(){
+        startPage.enterPassword(password);
+        startPage.clickLoginButton();
+        Assert.assertFalse(driver.getCurrentUrl().endsWith("/Default.aspx"));
+        startPage.clearPassword();
+    }
+
+    @Test (groups = {"SysAuthEmptyLoginTests"})
+    public void loginWithEmptyPassword(){
+        startPage.enterUserName(username);
+        startPage.clickLoginButton();
+        Assert.assertFalse(driver.getCurrentUrl().endsWith("/Default.aspx"));
+        startPage.clearUserName();
+    }
+
+
+    @AfterMethod (alwaysRun = true)
+    public void testLog(){
+        if (driver.getCurrentUrl().endsWith("/Default.aspx")){
+            driver.manage().deleteAllCookies();
+            driver.navigate().back();
+        }
+    }
 
 }
