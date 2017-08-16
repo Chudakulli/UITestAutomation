@@ -18,7 +18,6 @@ public class StartPage {
         return driver;
     }
 
-
     @FindBy (id ="apf-login-input-value-username")
     private WebElement userNameField;
 
@@ -51,6 +50,15 @@ public class StartPage {
         passwordField.clear();
     }
 
+    public void clearCredentials() {
+        userNameField.clear();
+        passwordField.clear();
+    }
+
+    public void enterCredentials(String userName, String password){
+        userNameField.sendKeys(userName);
+        passwordField.sendKeys(password);
+    }
 
     public String getUserNameLabelText()  {
         return userNameLabel.getText();

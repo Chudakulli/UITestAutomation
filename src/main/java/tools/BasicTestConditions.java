@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import pages.StartPage;
 import java.util.concurrent.TimeUnit;
 
-
 public class BasicTestConditions {
 
     private static final String BASEURL = PropertiesProvider.getProperty("base.url");
@@ -22,6 +21,7 @@ public class BasicTestConditions {
     public void beforeClassSetUp() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         driver = (WebDriver) Class.forName(webdriverName).newInstance();
         driver.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
         driver.get(BASEURL);
         startPage = new StartPage(driver);
     }

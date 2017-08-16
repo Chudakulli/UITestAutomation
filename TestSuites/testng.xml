@@ -2,12 +2,12 @@
 <suite name="Suite">
     <listeners>
         <listener class-name="tools.TestNGCustomReportListener" />
+        <listener class-name="tools.ScreenshotMaker" />
     </listeners>
     <test name="Practice Grouping">
         <groups>
             <run>
                 <include name="SysAuthLoginTests" />
-                <include name="Loginpage UI Tests" />
             </run>
         </groups>
         <classes>

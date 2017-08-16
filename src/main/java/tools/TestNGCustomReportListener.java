@@ -1,6 +1,5 @@
 package tools;
 
-import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -35,6 +34,8 @@ import org.testng.collections.Lists;
 import org.testng.internal.Utils;
 import org.testng.xml.XmlSuite;
 
+import static tools.TimeStampFileCreator.GetCurrentTimeStamp;
+
 public class TestNGCustomReportListener implements IReporter{
 
     private PrintWriter writer;
@@ -42,7 +43,7 @@ public class TestNGCustomReportListener implements IReporter{
     private Integer m_testIndex;
     private int m_methodIndex;
     private String reportTitle= "Test Execution Report";
-    private String reportFileName = TimeStampFileCreator.CreateFileWithTimeStamp("TestResults");
+    private String reportFileName = "TestResults";
 
 
     /** Creates summary of the run */
@@ -67,9 +68,11 @@ public class TestNGCustomReportListener implements IReporter{
         writer.close();
     }
 
-    protected PrintWriter createWriter(String outdir) throws IOException {
-        new File(outdir).mkdirs();
-        return new PrintWriter(new BufferedWriter(new FileWriter(new File(outdir, reportFileName))));
+    protected PrintWriter createWriter(String pathToFile) throws IOException {
+        String filePath = "C:\\QA\\CompassWebAutomationResults\\"+"TestReportOn "+GetCurrentTimeStamp().replace(":","_").replace(".","_")+"\\";
+        new File(filePath).mkdirs();
+        //new File(outdir).mkdirs();
+        return new PrintWriter(new BufferedWriter(new FileWriter(new File(filePath, reportFileName + GetCurrentTimeStamp().replace(":","_").replace(".","_")+ ".html"))));
     }
 
     /**

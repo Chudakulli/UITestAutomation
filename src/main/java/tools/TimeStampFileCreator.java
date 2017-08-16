@@ -12,9 +12,10 @@ import java.util.Date;
 
         //Create a new file
         public static String CreateFileWithTimeStamp(String filename) {
+            String filePath = "C:\\QA\\CompassWebAutomationResults\\"+"TestReportOn "+GetCurrentTimeStamp().replace(":","_").replace(".","_")+"\\";
+            new File(filePath).mkdir();
             //create a new file with Time Stamp
-            File file = new File(filename+GetCurrentTimeStamp().replace(":","_").replace(".","_")+".html");
-
+            File file = new File(filePath+filename+GetCurrentTimeStamp().replace(":","_").replace(".","_")+".html");
             try {
                 if (!file.exists()) {
                     file.createNewFile();
